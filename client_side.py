@@ -45,7 +45,7 @@ class EncryptMailRequest(BaseModel):
 # - Also encrypts the model weights and returns everything in base64 format
 # ------------------------------------------------------------------------- #
 @app.post("/encrypt")
-def run_model(request: EncryptMailRequest):
+def encrypt_plaintext(request: EncryptMailRequest):
     # 1️⃣ Preprocess and encrypt the input text to get a list of ciphertext vectors
     encrypted_vec_list = preprocess_and_encrypt(request.text, context, sk, encryptor, encoder, log_slots=15)
 
@@ -114,7 +114,7 @@ def recover_ciphertext(b64: str, context: heaan.Context) -> heaan.Ciphertext:
 # - Accepts an encrypted result in base64 and returns the decrypted real value
 # ------------------------------------------------------------------------------ #
 @app.post("/decrypt-result")
-def decrypt_api(request: DecryptRequest):
+def decrypt_ciphertext(request: DecryptRequest):
     try:
         # 1️⃣ Recover ciphertext object from base64 string
         ciphertext = recover_ciphertext(request.encrypted_result, context)
